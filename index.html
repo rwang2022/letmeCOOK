@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredient Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Ingredient Tracker</h1>
+    <form id="ingredient-form" autocomplete="off">
+        <input type="text" id="name" placeholder="Name" required />
+        <select id="category">
+            <option value="vegetable">Vegetable</option>
+            <option value="fruit">Fruit</option>
+            <option value="meat">Meat</option>
+        </select>
+        <button type="submit">Add Ingredient</button>
+    </form>
+
+    <h2>Ingredient List</h2>
+    <table id="ingredient-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Ingredient rows will go here -->
+        </tbody>
+    </table>
+
+    <script>
+        const ingredientForm = document.getElementById("ingredient-form");
+        const ingredientTable = document.getElementById("ingredient-table").querySelector("tbody");
+
+        const ingredients = [];
+
+        ingredientForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const category = document.getElementById("category").value;
+
+            const newIngredient = { name, category };
+            ingredients.push(newIngredient);
+            updateTable();
+        });
+
+        function updateTable() {
+            ingredientTable.innerHTML = ingredients.map((ing, index) => `
+                <tr>
+                    <td>${ing.name}</td>
+                    <td>${ing.category}</td>
+                    <td><button onclick="deleteIngredient(${index})">Delete</button></td>
+                </tr>
+            `).join("");
+        }
+
+        function deleteIngredient(index) {
+            ingredients.splice(index, 1);
+            updateTable();
+        }
+    </script>
+</body>
+</html>
